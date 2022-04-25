@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://ec2-3-218-171-44.compute-1.amazonaws.com:5432/d7epg75am28quf
+    username: bdghqzwhutprxp
+    password: 5880b578fff1bf25343e9ee4631023096c9859c00c6b8d54acffd7e691b808c8
+  jpa:
+    hibernate:
+      ddl-auto: create
+      show-sql: true
+  hikari:
+    connectionTimeout: 20000
+    maximumPoolSize: 5
