@@ -1,5 +1,6 @@
 package com.eden.gallery.util;
 
+import com.eden.gallery.viewmodel.ArticleVM;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,22 @@ public class ResponseModel {
     private Object data;
 
     public static ResponseModel created(Object data) {
+        return new ResponseModel(ResponseCode.ACCEPTED.getCode(), Message.ENTITY_CREATED.getMessage(), data);
+    }
 
-        return new ResponseModel(ResponseCode.CREATED.getCode(), Message.ENTITY_CREATED.getMessage(), data);
+    public static ResponseModel ok(Object data) {
+        return new ResponseModel(ResponseCode.SUCCESS.getCode(), Message.SUCCESS.getMessage(), data);
+    }
+
+    public static ResponseModel updated(Object data) {
+        return new ResponseModel(ResponseCode.ACCEPTED.getCode(), Message.ENTITY_UPDATED.getMessage(), data);
+    }
+
+    public static ResponseModel notFound() {
+        return new ResponseModel(ResponseCode.NOT_FOUND.getCode(), Message.ENTITY_NOT_FOUND.getMessage(), null);
+    }
+
+    public static ResponseModel deleted(Object data) {
+        return new ResponseModel(ResponseCode.ACCEPTED.getCode(), Message.ENTITY_DELETED.getMessage(), data);
     }
 }
