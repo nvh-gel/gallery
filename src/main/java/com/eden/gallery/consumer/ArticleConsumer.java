@@ -26,7 +26,6 @@ public class ArticleConsumer {
 
     public ArticleConsumer() {
         actionMap = new HashMap<>();
-
         actionMap.put(Action.CREATE, a -> articleService.createArticle(a));
         actionMap.put(Action.UPDATE, a -> articleService.updateArticle(a));
         actionMap.put(Action.DELETE, a -> articleService.deleteArticle(a));
