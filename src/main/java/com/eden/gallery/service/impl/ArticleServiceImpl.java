@@ -1,31 +1,39 @@
 package com.eden.gallery.service.impl;
 
 import com.eden.gallery.mapper.ArticleMapper;
+import com.eden.gallery.message.QueueMessage;
 import com.eden.gallery.model.Article;
+import com.eden.gallery.producer.ArticleProducer;
 import com.eden.gallery.repository.ArticleRepository;
 import com.eden.gallery.service.ArticleService;
+import com.eden.gallery.util.Action;
 import com.eden.gallery.viewmodel.ArticleVM;
+import lombok.extern.log4j.Log4j2;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
+@Log4j2
 public class ArticleServiceImpl implements ArticleService {
 
     private final ArticleMapper articleMapper = Mappers.getMapper(ArticleMapper.class);
     private ArticleRepository articleRepository;
 
+    private ArticleProducer articleProducer;
+
     @Override
-    public ArticleVM createArticle(ArticleVM request) {
+    public void createArticle(ArticleVM request) {
 
         Article article = articleMapper.toModel(request);
         article.setCreatedAt(LocalDateTime.now());
         article.setUpdatedAt(LocalDateTime.now());
         Article created = articleRepository.save(article);
-        return articleMapper.toViewModel(created);
+        log.info("Article created: {}", created);
     }
 
     @Override
@@ -43,7 +51,7 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ArticleVM updateArticle(ArticleVM request) {
+    public void updateArticle(ArticleVM request) {
 
         Article article = articleRepository.findById(request.getId()).orElse(null);
         if (article != null) {
@@ -51,24 +59,71 @@ public class ArticleServiceImpl implements ArticleService {
             articleMapper.mapUpdate(article, toUpdate);
             article.setUpdatedAt(LocalDateTime.now());
             Article updated = articleRepository.save(article);
-            return articleMapper.toViewModel(updated);
+            log.info("Article updated: {}", updated);
         }
-        return null;
     }
 
     @Override
-    public ArticleVM deleteArticle(Long id) {
+    public void deleteArticle(Long id) {
 
         Article article = articleRepository.findById(id).orElse(null);
         if (article != null) {
             articleRepository.softDelete(id);
-            return articleMapper.toViewModel(article);
+            log.info("Deleted article with id: {}", id);
         }
-        return null;
+    }
+
+    @Override
+    public String createArticleOnQueue(ArticleVM request) {
+
+        UUID messageId = UUID.randomUUID();
+        QueueMessage<ArticleVM> queueMessage = new QueueMessage<>();
+        queueMessage.setAction(Action.CREATE);
+        queueMessage.setId(messageId);
+        queueMessage.setMessage(request);
+        articleProducer.send(queueMessage);
+        return messageId.toString();
+    }
+
+    @Override
+    public void deleteArticle(ArticleVM a) {
+
+        deleteArticle(a.getId());
+    }
+
+    @Override
+    public String updateArticleOnQueue(ArticleVM request) {
+
+        UUID messageId = UUID.randomUUID();
+        QueueMessage<ArticleVM> queueMessage = new QueueMessage<>();
+        queueMessage.setAction(Action.UPDATE);
+        queueMessage.setId(messageId);
+        queueMessage.setMessage(request);
+        articleProducer.send(queueMessage);
+        return messageId.toString();
+    }
+
+    @Override
+    public String deleteArticleOnQueue(Long id) {
+
+        UUID messageId = UUID.randomUUID();
+        QueueMessage<ArticleVM> queueMessage = new QueueMessage<>();
+        queueMessage.setAction(Action.DELETE);
+        queueMessage.setId(messageId);
+        ArticleVM message = new ArticleVM();
+        message.setId(id);
+        queueMessage.setMessage(message);
+        articleProducer.send(queueMessage);
+        return messageId.toString();
     }
 
     @Autowired
     public void setArticleRepository(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
+    }
+
+    @Autowired
+    public void setArticleProducer(ArticleProducer articleProducer) {
+        this.articleProducer = articleProducer;
     }
 }

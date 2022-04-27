@@ -6,6 +6,28 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+    show-sql: true
   hikari:
     connectionTimeout: 20000
     maximumPoolSize: 5
+  kafka:
+    bootstrap-servers: tricycle-01.srvs.cloudkafka.com:9094,tricycle-02.srvs.cloudkafka.com:9094,tricycle-03.srvs.cloudkafka.com:9094
+    topic: w9dl6gl3-article
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="w9dl6gl3" password="0hKSsGSaPEDM7thw5hRayEWp33JWTcTY";
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      group-id: w9dl6gl3-consumers
+      auto-offset-reset: latest
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: com.eden.gallery.message

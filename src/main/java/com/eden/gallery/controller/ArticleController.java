@@ -17,7 +17,7 @@ public class ArticleController {
     @PostMapping
     private ResponseEntity<ResponseModel> createArticle(@RequestBody ArticleVM request) {
 
-        return ResponseEntity.accepted().body(ResponseModel.created(articleService.createArticle(request)));
+        return ResponseEntity.accepted().body(ResponseModel.created(articleService.createArticleOnQueue(request)));
     }
 
     @GetMapping
@@ -40,23 +40,13 @@ public class ArticleController {
     @PutMapping
     private ResponseEntity<ResponseModel> updateArticle(@RequestBody ArticleVM request) {
 
-        ArticleVM updated = articleService.updateArticle(request);
-        if (updated == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseModel.notFound());
-        } else {
-            return ResponseEntity.accepted().body(ResponseModel.updated(updated));
-        }
+        return ResponseEntity.accepted().body(ResponseModel.updated(articleService.updateArticleOnQueue(request)));
     }
 
     @DeleteMapping("/{id}")
     private ResponseEntity<ResponseModel> deleteArticle(@PathVariable Long id) {
 
-        ArticleVM deleted = articleService.deleteArticle(id);
-        if (deleted == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseModel.notFound());
-        } else {
-            return ResponseEntity.accepted().body(ResponseModel.deleted(deleted));
-        }
+        return ResponseEntity.accepted().body(ResponseModel.deleted(articleService.deleteArticleOnQueue(id)));
     }
 
     @Autowired

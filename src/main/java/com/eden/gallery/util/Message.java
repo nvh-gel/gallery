@@ -6,10 +6,10 @@ import lombok.Getter;
 @Getter
 public enum Message {
     SUCCESS("Request successfully."),
-    ENTITY_CREATED("Request was accepted, created entity."),
-    ENTITY_UPDATED("Request was accepted, updated entity."),
+    ENTITY_CREATED("Request was accepted, returned creating message id."),
+    ENTITY_UPDATED("Request was accepted, returned updating message id."),
     ENTITY_NOT_FOUND("Entity not found."),
-    ENTITY_DELETED("Entity was successfully deleted.");
+    ENTITY_DELETED("Request was accepted, returned deleting message id.");
 
     private final String message;
 

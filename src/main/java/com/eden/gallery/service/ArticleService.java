@@ -5,14 +5,21 @@ import com.eden.gallery.viewmodel.ArticleVM;
 import java.util.List;
 
 public interface ArticleService {
-    ArticleVM createArticle(ArticleVM request);
+    void createArticle(ArticleVM request);
 
     List<ArticleVM> findAllArticles();
 
     ArticleVM findArticleById(Long id);
 
-    ArticleVM updateArticle(ArticleVM request);
+    void updateArticle(ArticleVM request);
 
-    ArticleVM deleteArticle(Long id);
+    void deleteArticle(Long id);
 
+    String createArticleOnQueue(ArticleVM request);
+
+    void deleteArticle(ArticleVM a);
+
+    String updateArticleOnQueue(ArticleVM request);
+
+    String deleteArticleOnQueue(Long id);
 }
