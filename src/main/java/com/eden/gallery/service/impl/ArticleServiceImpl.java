@@ -1,12 +1,12 @@
 package com.eden.gallery.service.impl;
 
 import com.eden.gallery.mapper.ArticleMapper;
-import com.eden.gallery.message.QueueMessage;
 import com.eden.gallery.model.Article;
 import com.eden.gallery.producer.ArticleProducer;
 import com.eden.gallery.repository.ArticleRepository;
 import com.eden.gallery.service.ArticleService;
 import com.eden.gallery.util.Action;
+import com.eden.gallery.util.QueueMessage;
 import com.eden.gallery.viewmodel.ArticleVM;
 import lombok.extern.log4j.Log4j2;
 import org.mapstruct.factory.Mappers;
@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * Implementation of article service.
+ */
 @Service
 @Log4j2
 public class ArticleServiceImpl implements ArticleService {
@@ -26,6 +29,9 @@ public class ArticleServiceImpl implements ArticleService {
 
     private ArticleProducer articleProducer;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void createArticle(ArticleVM request) {
 
@@ -36,6 +42,9 @@ public class ArticleServiceImpl implements ArticleService {
         log.info("Article created: {}", created);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<ArticleVM> findAllArticles() {
 
@@ -43,6 +52,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.toViewModel(articles);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public ArticleVM findArticleById(Long id) {
 
@@ -50,6 +62,9 @@ public class ArticleServiceImpl implements ArticleService {
         return articleMapper.toViewModel(article);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void updateArticle(ArticleVM request) {
 
@@ -63,6 +78,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteArticle(Long id) {
 
@@ -73,6 +91,9 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String createArticleOnQueue(ArticleVM request) {
 
@@ -85,12 +106,18 @@ public class ArticleServiceImpl implements ArticleService {
         return messageId.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void deleteArticle(ArticleVM a) {
 
         deleteArticle(a.getId());
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String updateArticleOnQueue(ArticleVM request) {
 
@@ -103,6 +130,9 @@ public class ArticleServiceImpl implements ArticleService {
         return messageId.toString();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String deleteArticleOnQueue(Long id) {
 
@@ -117,11 +147,21 @@ public class ArticleServiceImpl implements ArticleService {
         return messageId.toString();
     }
 
+    /**
+     * Setter.
+     *
+     * @param articleRepository injected article repository
+     */
     @Autowired
     public void setArticleRepository(ArticleRepository articleRepository) {
         this.articleRepository = articleRepository;
     }
 
+    /**
+     * Setter.
+     *
+     * @param articleProducer injected article kafka producer
+     */
     @Autowired
     public void setArticleProducer(ArticleProducer articleProducer) {
         this.articleProducer = articleProducer;

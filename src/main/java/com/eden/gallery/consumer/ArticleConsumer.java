@@ -1,6 +1,6 @@
 package com.eden.gallery.consumer;
 
-import com.eden.gallery.message.QueueMessage;
+import com.eden.gallery.util.QueueMessage;
 import com.eden.gallery.service.ArticleService;
 import com.eden.gallery.util.Action;
 import com.eden.gallery.viewmodel.ArticleVM;
@@ -16,6 +16,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 
+/**
+ * Consumer for article handling.
+ */
 @Component
 @Log4j2
 public class ArticleConsumer {
@@ -24,6 +27,9 @@ public class ArticleConsumer {
 
     private final Map<Action, Consumer<ArticleVM>> actionMap;
 
+    /**
+     * Constructor.
+     */
     public ArticleConsumer() {
         actionMap = new HashMap<>();
         actionMap.put(Action.CREATE, a -> articleService.createArticle(a));
@@ -31,6 +37,14 @@ public class ArticleConsumer {
         actionMap.put(Action.DELETE, a -> articleService.deleteArticle(a));
     }
 
+    /**
+     * Handle article message from queue.
+     *
+     * @param message received message
+     * @param partitions kafka partitions
+     * @param topics kafka topics
+     * @param offsets kafka offset
+     */
     @KafkaListener(topics = "${spring.kafka.topic}")
     public void processArticleMessage(QueueMessage<ArticleVM> message,
                                       @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
@@ -42,6 +56,10 @@ public class ArticleConsumer {
         actionMap.get(message.getAction()).accept(message.getMessage());
     }
 
+    /**
+     * Setter.
+     * @param articleService injected article service
+     */
     @Autowired
     public void setArticleService(ArticleService articleService) {
         this.articleService = articleService;
