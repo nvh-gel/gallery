@@ -9,6 +9,9 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+/**
+ * Abstract data model.
+ */
 @MappedSuperclass
 @Getter
 @Setter
