@@ -2,8 +2,9 @@ package com.eden.gallery.util;
 
 import lombok.Getter;
 
-import javax.management.loading.MLetContent;
-
+/**
+ * Returned response code to client.
+ */
 @Getter
 public enum ResponseCode {
     SUCCESS("200"),
@@ -14,6 +15,4 @@ public enum ResponseCode {
     ResponseCode(String code) {
         this.code = code;
     }
-
-
 }
