@@ -36,3 +36,7 @@ spring:
       enabled: true
       max-file-size: 20MB
       max-request-size: 100MB
+cloudinary:
+  name: htfvhf91n
+  key: 931965461199396
+  secret: ZQn2S87oD1Nd9DIgHSv6PKUhuIo

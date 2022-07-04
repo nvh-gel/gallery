@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 
+/**
+ * Abstract view model.
+ */
 @Data
 public class BaseVM {
 

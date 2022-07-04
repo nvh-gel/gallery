@@ -2,6 +2,9 @@ package com.eden.gallery.util;
 
 import lombok.Getter;
 
+/**
+ * Response message to client,
+ */
 @Getter
 public enum Message {
     SUCCESS("Request successfully."),

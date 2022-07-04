@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.eden'
 version = '0.0.1-SNAPSHOT'
+//noinspection GroovyUnusedAssignment
 sourceCompatibility = '17'
 
 configurations {
@@ -32,6 +33,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.kafka:spring-kafka'
 	implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+	implementation "com.cloudinary:cloudinary-http44:${versions.cloudinary}"
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 	runtimeOnly 'org.postgresql:postgresql'
