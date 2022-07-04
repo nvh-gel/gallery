@@ -47,7 +47,7 @@ public class ArticleConsumer {
      */
     @KafkaListener(topics = "${spring.kafka.topic}")
     public void processArticleMessage(QueueMessage<ArticleVM> message,
-                                      @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
+                                      @Header(KafkaHeaders.RECEIVED_PARTITION) List<Integer> partitions,
                                       @Header(KafkaHeaders.RECEIVED_TOPIC) List<String> topics,
                                       @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
 
