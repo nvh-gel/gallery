@@ -1,7 +1,7 @@
 plugins {
-	id 'org.springframework.boot' version '2.5.14'
-	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id 'java'
+    id 'org.springframework.boot' version '2.5.14'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'java'
 }
 
 group = 'com.eden'
@@ -10,54 +10,65 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
 configurations {
-	compileOnly {
-		extendsFrom annotationProcessor
-	}
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
 }
 
 jar {
-	enabled = false
+    enabled = false
 }
 
 repositories {
-	mavenCentral()
-	maven {
-		url = uri("https://maven.pkg.github.com/nvh-gel/registry")
-		credentials {
-			username = System.getenv("REGISTRY_USER")
-			password = System.getenv("REGISTRY_TOKEN")
-		}
-	}
+    mavenCentral()
+    maven {
+        url = uri("https://maven.pkg.github.com/nvh-gel/registry")
+        credentials {
+            username = System.getenv("REGISTRY_USER")
+            password = System.getenv("REGISTRY_TOKEN")
+        }
+    }
 }
 
 file("versions.properties").withReader {
-   Properties versions = new Properties()
-   versions.load(it)
-   project.ext.versions = versions
+    Properties versions = new Properties()
+    versions.load(it)
+    project.ext.versions = versions
 }
 
 dependencies {
-	implementation "com.eden:common-libs:${versions.common}"
-	implementation "com.eden:common-data:${versions.common}"
-	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.kafka:spring-kafka'
-	implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
-	implementation "com.cloudinary:cloudinary-http44:${versions.cloudinary}"
+    implementation "com.eden:common-libs:${versions.common}"
+    implementation "com.eden:common-data:${versions.common}"
 
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+    implementation 'org.springframework.kafka:spring-kafka'
 
-	runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
-	runtimeOnly 'org.postgresql:postgresql'
+    implementation "org.mapstruct:mapstruct:${versions.mapstruct}"
+    implementation "com.cloudinary:cloudinary-http44:${versions.cloudinary}"
 
-	annotationProcessor 'org.projectlombok:lombok'
-	annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+    implementation "com.fasterxml.jackson.core:jackson-core:${versions.jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${versions.jackson}"
+    implementation "com.fasterxml.jackson.dataformat:jackson-dataformat-yaml:${versions.jackson}"
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'org.springframework.kafka:spring-kafka-test'
+    compileOnly 'org.projectlombok:lombok'
+
+    runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
+    runtimeOnly 'org.postgresql:postgresql'
+
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor "org.mapstruct:mapstruct-processor:${versions.mapstruct}"
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 tasks.named('test') {
-	useJUnitPlatform()
+    useJUnitPlatform()
+}
+
+configurations.all {
+    exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
 }
