@@ -4,16 +4,15 @@ import com.eden.common.viewmodel.BaseVM;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 /**
- * View model for article.
+ * View model of publisher data.
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ArticleVM extends BaseVM {
+public class PublisherVM extends BaseVM {
 
-    private String title;
-    private String content;
-    private String author;
-
-    private AlbumVM album;
+    private String name;
+    private List<AlbumVM> albums;
 }

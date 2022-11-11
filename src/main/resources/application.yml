@@ -1,6 +1,27 @@
 spring:
   profiles:
     active: ${ENV:dev}
+  kafka:
+    properties:
+      security:
+        protocol: SASL_SSL
+      sasl:
+        mechanism: SCRAM-SHA-256
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      auto-offset-reset: latest
+      properties:
+        spring:
+          json:
+            trusted:
+              packages: '*'
 server:
+  port: 8081
   servlet:
     context-path: /api
+#    multipart:
+#      enabled: true
+#      max-file-size: 20MB
+#      max-request-size: 100MB

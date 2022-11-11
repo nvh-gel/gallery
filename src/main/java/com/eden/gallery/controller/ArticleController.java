@@ -1,7 +1,7 @@
 package com.eden.gallery.controller;
 
+import com.eden.common.utils.ResponseModel;
 import com.eden.gallery.service.ArticleService;
-import com.eden.gallery.util.ResponseModel;
 import com.eden.gallery.viewmodel.ArticleVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,73 +25,58 @@ public class ArticleController {
     private ArticleService articleService;
 
     /**
-     * Create a new article.
-     *
-     * @param request creation request
-     * @return created article
+     * {@inheritDoc}
      */
     @PostMapping
-    private ResponseEntity<ResponseModel> createArticle(@RequestBody ArticleVM request) {
+    public ResponseEntity<ResponseModel> create(@RequestBody ArticleVM request) {
 
-        return ResponseEntity.accepted().body(ResponseModel.created(articleService.createArticleOnQueue(request)));
+        return ResponseEntity.accepted()
+                .body(ResponseModel.created(articleService.createOnQueue(request)));
     }
 
     /**
-     * Find all articles.
-     *
-     * @return list of articles
+     * {@inheritDoc}
      */
     @GetMapping
-    private ResponseEntity<ResponseModel> findArticle() {
+    public ResponseEntity<ResponseModel> findAll() {
 
-        return ResponseEntity.ok(ResponseModel.ok(articleService.findAllArticles()));
+        return ResponseEntity.ok(ResponseModel.ok(articleService.findAll()));
     }
 
     /**
-     * Find a single article by id.
-     *
-     * @param id article id to find
-     * @return found article
+     * {@inheritDoc}
      */
     @GetMapping("/{id}")
-    private ResponseEntity<ResponseModel> findArticleById(@PathVariable Long id) {
+    public ResponseEntity<ResponseModel> findById(@PathVariable Long id) {
 
-        ArticleVM found = articleService.findArticleById(id);
-        if (found == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseModel.notFound());
-        } else {
-            return ResponseEntity.ok(ResponseModel.ok(found));
-        }
+        ArticleVM articleVM = articleService.findById(id);
+        return articleVM == null
+                ? ResponseEntity.status(HttpStatus.NOT_FOUND).body(ResponseModel.notFound())
+                : ResponseEntity.ok(ResponseModel.ok(articleVM));
     }
 
     /**
-     * Update an article.
-     *
-     * @param request update information
-     * @return updated article
+     * {@inheritDoc}
      */
     @PutMapping
-    private ResponseEntity<ResponseModel> updateArticle(@RequestBody ArticleVM request) {
+    public ResponseEntity<ResponseModel> update(@RequestBody ArticleVM request) {
 
-        return ResponseEntity.accepted().body(ResponseModel.updated(articleService.updateArticleOnQueue(request)));
+        return ResponseEntity.accepted()
+                .body(ResponseModel.updated(articleService.updateOnQueue(request)));
     }
 
     /**
-     * Soft delete an article.
-     *
-     * @param id article id to delete
-     * @return deleted article
+     * {@inheritDoc}
      */
     @DeleteMapping("/{id}")
-    private ResponseEntity<ResponseModel> deleteArticle(@PathVariable Long id) {
+    public ResponseEntity<ResponseModel> delete(@PathVariable Long id) {
 
-        return ResponseEntity.accepted().body(ResponseModel.deleted(articleService.deleteArticleOnQueue(id)));
+        return ResponseEntity.accepted()
+                .body(ResponseModel.deleted(articleService.deleteOnQueue(id)));
     }
 
     /**
      * Setter.
-     *
-     * @param articleService injected article service
      */
     @Autowired
     public void setArticleService(ArticleService articleService) {

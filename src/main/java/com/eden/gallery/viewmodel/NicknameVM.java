@@ -5,15 +5,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 /**
- * View model for article.
+ * DTO of model nickname
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ArticleVM extends BaseVM {
+public class NicknameVM extends BaseVM {
 
-    private String title;
-    private String content;
-    private String author;
-
-    private AlbumVM album;
+    private String nick;
+    private Long modelId;
 }

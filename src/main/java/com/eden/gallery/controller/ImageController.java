@@ -1,7 +1,7 @@
 package com.eden.gallery.controller;
 
+import com.eden.common.utils.ResponseModel;
 import com.eden.gallery.service.ImageService;
-import com.eden.gallery.util.ResponseModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
