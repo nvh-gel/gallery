@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://tiny.db.elephantsql.com:5432/pjfpzggg
+    username: pjfpzggg
+    password: F2TFO4oc6vGOdzfzgnrKAd1iteImsLHO
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: false
+  kafka:
+    bootstrap-servers:
+      - dory-01.srvs.cloudkafka.com:9094
+      - dory-02.srvs.cloudkafka.com:9094
+      - dory-03.srvs.cloudkafka.com:9094
+    properties:
+      sasl:
+        jaas:
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="cpk3jw42" password="5oyWRkjE_Y4cKd-VYbe78mqM4-ebvZCg";
+    consumer:
+      group-id: cpk3jw42-consumers
+    topic:
+      article: cpk3jw42-article
+cloudinary:
+  name: dsn9vablo
+  key: 387541922456337
+  secret: vaTmn3aGLMifZzAllcZsoIurQVc

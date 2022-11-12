@@ -1,22 +1,28 @@
 spring:
   datasource:
-    url: jdbc:postgresql://peanut.db.elephantsql.com:5432/dzoiwbfo
-    username: dzoiwbfo
-    password: kDLA5mMqSH_6rOG8QuFPRwKULhEDezK0
+    url: jdbc:postgresql://tiny.db.elephantsql.com:5432/smwvnnzb
+    username: smwvnnzb
+    password: ASe7NRC7LyqcWkWT6Z5R_xLaPt1LdxYp
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
   kafka:
-    bootstrap-servers: dory-01.srvs.cloudkafka.com:9094,dory-02.srvs.cloudkafka.com:9094,dory-03.srvs.cloudkafka.com:9094
+    bootstrap-servers:
+      - dory-01.srvs.cloudkafka.com:9094
+      - dory-02.srvs.cloudkafka.com:9094
+      - dory-03.srvs.cloudkafka.com:9094
     properties:
       sasl:
         jaas:
-          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="anjkp40c" password="WujqAqNOgQkuEV1RkRaiNeKvtlPWTuW1";
+          config: org.apache.kafka.common.security.scram.ScramLoginModule required username="9v9yq2pk" password="9BrxJVByunM2fJ_qZbP3IhC_xo-Qu66F";
     consumer:
-      group-id: anjkp40c-consumers
+      group-id: 9v9yq2pk-consumers
     topic:
-      article: anjkp40c-article
+      article: 9v9yq2pk-article
 cloudinary:
   name: dsn9vablo
   key: 387541922456337
